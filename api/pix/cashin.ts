@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node"
-import { mediusApi } from "../../lib/medius"
+import { getMediusApi } from "../../lib/medius"
 
 export default async function handler(
   req: VercelRequest,
@@ -19,8 +19,12 @@ export default async function handler(
   }
 
   try {
-    // 🔎 Teste simples de conexão (GET ou endpoint leve)
-    const response = await mediusApi.get("/cashout")
+    const mediusApi = getMediusApi()
+
+    // endpoint leve só para validar auth
+    const response = await mediusApi.get("/cashout", {
+      params: { status: "pending" }
+    })
 
     return res.status(200).json({
       ok: true,
@@ -30,8 +34,8 @@ export default async function handler(
   } catch (error: any) {
     return res.status(500).json({
       ok: false,
-      error: "Failed to connect to Medius",
-      details: error?.response?.data || error.message
+      message: "Failed to connect to Medius",
+      error: error?.response?.data || error.message
     })
   }
 }
