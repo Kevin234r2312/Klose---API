@@ -2,7 +2,7 @@ export const config = {
   runtime: "nodejs"
 }
 import type { VercelRequest, VercelResponse } from "@vercel/node"
-import { getMediusApi } from "../../lib/medius"
+import { getMediusApi } from "../../../lib/medius"
 
 export default async function handler(
   req: VercelRequest,
