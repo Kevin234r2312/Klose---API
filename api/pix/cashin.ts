@@ -1,10 +1,10 @@
-export const config = {
-  runtime: "nodejs"
-}
+module.exports = async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" })
+  }
 
-export default async function handler(req: any, res: any) {
   return res.status(200).json({
     ok: true,
-    step: "node-puro-funcionando"
+    message: "Pix In endpoint online 🚀"
   })
 }
