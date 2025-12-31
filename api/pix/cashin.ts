@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
   phone: body.phone || "11999999999",
   document: {
     type: "CPF",
-    number: body.cpf || "12345678909"
+    number: body.cpf || "08594408188"
   }
 }
 
