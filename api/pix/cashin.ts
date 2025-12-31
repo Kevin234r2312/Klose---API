@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   return res.status(200).json({
     ok: true,
-    step: "final-test",
+    step: "clean-test",
     ping: ping()
   })
 }
