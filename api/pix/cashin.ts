@@ -3,7 +3,7 @@ export const config = {
 }
 
 import type { VercelRequest, VercelResponse } from "@vercel/node"
-import { ping } from "../../../lib/test"
+import { ping } from "../../lib/test"
 
 export default async function handler(
   req: VercelRequest,
@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   return res.status(200).json({
     ok: true,
-    step: "clean-test",
+    step: "path-fixed",
     ping: ping()
   })
 }
