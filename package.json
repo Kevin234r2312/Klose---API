@@ -1,0 +1,8 @@
+{
+  "name": "klose-api",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "@vercel/node": "^3.0.0"
+  }
+}
