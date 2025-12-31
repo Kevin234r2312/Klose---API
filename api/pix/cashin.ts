@@ -3,7 +3,7 @@ export const config = {
 }
 
 import type { VercelRequest, VercelResponse } from "@vercel/node"
-import { ping } from "@/lib/test"
+import { ping } from "../../../lib/test"
 
 export default async function handler(
   req: VercelRequest,
