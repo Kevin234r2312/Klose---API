@@ -24,13 +24,15 @@ module.exports = async (req, res) => {
             }
           ],
           customer: {
-            name: body.name || "Usuário Klose",
-            email: body.email || "user@klose.app",
-            phone: body.phone || "11999999999"
-          }
-        })
-      }
-    )
+  name: body.name || "Usuário Klose",
+  email: body.email || "user@klose.app",
+  phone: body.phone || "11999999999",
+  document: {
+    type: "CPF",
+    number: body.cpf || "12345678909"
+  }
+}
+
 
     return res.status(200).json({
       ok: true,
