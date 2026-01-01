@@ -17,28 +17,33 @@ module.exports = async (req, res) => {
       {
         method: "POST",
         body: JSON.stringify({
-          paymentMethod: "PIX",
-          amount: body.amount || 2990,
-          items: [
-            {
-              title: "Assinatura Klose",
-              unitPrice: body.amount || 2990,
-              quantity: 1,
-              externalRef: "klose-plan"
-            }
-          ],
-          customer: {
-            name: body.name || "Usuário Klose",
-            email: body.email || "user@klose.app",
-            phone: body.phone || "11999999999",
-            document: {
-              type: "CPF",
-              number: body.cpf || "08594408188"
-            }
-          }
-        })
-      }
-    )
+  paymentMethod: "PIX",
+  amount: body.amount,
+
+  externalRef: "teste-user:teste-plan",
+
+  items: [
+    {
+      title: "Assinatura Klose",
+      unitPrice: body.amount,
+      quantity: 1,
+      externalRef: "klose-plan"
+    }
+  ],
+
+  customer: {
+    name: body.name,
+    email: body.email,
+    phone: body.phone,
+    document: {
+      type: "CPF",
+      number: body.cpf
+    }
+  },
+
+  postbackUrl: "https://klose-api.vercel.app/api/pix/postback"
+})
+
 
     return res.status(200).json({
       ok: true,
