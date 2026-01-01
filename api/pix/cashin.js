@@ -1,4 +1,4 @@
-module.exports = async function handler(req: any, res: any) {
+module.exports = async function handler(req, res) {
   try {
     if (req.method !== "POST") {
       res.statusCode = 405
