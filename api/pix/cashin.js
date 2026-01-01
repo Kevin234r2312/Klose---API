@@ -1,3 +1,5 @@
+return res.status(200).json({ ok: true, step: "cashin alive" })
+
 const { mediusRequest } = require("../../lib/medius")
 
 module.exports = async (req, res) => {
