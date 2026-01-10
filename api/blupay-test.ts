@@ -1,27 +1,25 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { blupayRequest } from '../lib/blupay/client'
 
 export const config = {
   runtime: 'nodejs',
 }
 
-export default async function handler() {
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse
+) {
   try {
     const balance = await blupayRequest('/wallet/balance', 'GET')
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        balance,
-      }),
-      { status: 200 }
-    )
+    res.status(200).json({
+      ok: true,
+      balance,
+    })
   } catch (error: any) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        error: error.message,
-      }),
-      { status: 500 }
-    )
+    res.status(500).json({
+      ok: false,
+      error: error.message,
+    })
   }
 }
