@@ -14,24 +14,36 @@ export default async function handler(
   }
 
   try {
-    const { amount, externalRef, payer } = req.body
+    const { amount, externalRef, customer } = req.body
 
-    if (!amount || !externalRef || !payer?.document) {
+    if (!amount || !externalRef || !customer) {
       return res.status(400).json({
-        error: 'amount, externalRef and payer.document are required',
+        error: 'amount, externalRef and customer are required',
       })
     }
 
-    const pix = await blupayRequest('/pix/in', 'POST', {
-      amount,
-      externalRef,
-      payer,
-      description: 'Pagamento via Klose',
-    })
+    const transaction = await blupayRequest(
+      '/api/v1/transactions',
+      'POST',
+      {
+        amount, // em centavos
+        paymentMethod: 'pix',
+        externalRef,
+        customer,
+        items: [
+          {
+            title: 'Pagamento Klose',
+            unitPrice: amount,
+            quantity: 1,
+            tangible: false,
+          },
+        ],
+      }
+    )
 
-    res.status(200).json({
+    res.status(201).json({
       ok: true,
-      pix,
+      transaction,
     })
   } catch (error: any) {
     res.status(500).json({
