@@ -1,8 +1,4 @@
-import { blupayRequest } from './lib/blupay/client'
-
-export const config = {
-  runtime: 'edge',
-}
+import { blupayRequest } from '../lib/blupay/client'
 
 export default async function handler() {
   try {
