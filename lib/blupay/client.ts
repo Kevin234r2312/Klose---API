@@ -1,37 +1,20 @@
-// lib/blupay/client.ts
-export type BluPayRequestOptions = {
-  idempotencyKey?: string
-}
-
-export async function blupayRequest<T>(
+export async function blupayRequest(
   path: string,
   method: 'GET' | 'POST',
-  body?: unknown,
-  options?: BluPayRequestOptions
-): Promise<T> {
-  const baseUrl = process.env.BLUPAY_API_URL!
-  const publicKey = process.env.BLUPAY_PUBLIC_KEY!
-  const secretKey = process.env.BLUPAY_SECRET_KEY!
+  body?: any
+) {
+  const baseUrl = process.env.BLUPAY_API_URL
+  const publicKey = process.env.BLUPAY_PUBLIC_KEY
+  const secretKey = process.env.BLUPAY_SECRET_KEY
 
-  if (!baseUrl || !publicKey || !secretKey) {
-    throw new Error('BluPay env vars not configured')
-  }
-
-  // Edge suporta btoa
-  const auth = btoa(`${secretKey}:${publicKey}`)
-
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-    Authorization: `Basic ${auth}`,
-  }
-
-  if (options?.idempotencyKey) {
-    headers['Idempotency-Key'] = options.idempotencyKey
-  }
+  const auth = Buffer.from(`${secretKey}:${publicKey}`).toString('base64')
 
   const res = await fetch(`${baseUrl}${path}`, {
     method,
-    headers,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${auth}`,
+    },
     body: body ? JSON.stringify(body) : undefined,
   })
 
