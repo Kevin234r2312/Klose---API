@@ -1,5 +1,9 @@
 import { blupayRequest } from '../lib/blupay/client'
 
+export const config = {
+  runtime: 'nodejs',
+}
+
 export default async function handler() {
   try {
     const balance = await blupayRequest('/wallet/balance', 'GET')
