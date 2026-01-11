@@ -1,7 +1,8 @@
 headers: {
-  Authorization: process.env.BLUPAY_SECRET_KEY!, // sem Basic
+  Authorization: `Basic ${process.env.BLUPAY_AUTH}`,
   'Content-Type': 'application/json',
-},
+}
+,
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 export const config = { runtime: 'nodejs' }
