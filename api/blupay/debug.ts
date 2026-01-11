@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import fetch from 'node-fetch'
 
 export const config = { runtime: 'nodejs' }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const auth = String(process.env.BLUPAY_AUTH).trim()
+    const auth = process.env.BLUPAY_AUTH?.trim()
+    const url = process.env.BLUPAY_API_URL + '/api/v1/transactions'
 
-    const r = await fetch(`${process.env.BLUPAY_API_URL}/api/v1/transactions`, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         Authorization: `Basic ${auth}`,
@@ -18,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         paymentMethod: 'pix',
         externalRef: 'DEBUG-TEST',
         customer: {
-          name: 'Teste Auth',
+          name: 'Teste',
           document: { type: 'cpf', number: '12345678910' },
         },
         items: [
@@ -27,12 +27,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }),
     })
 
-    const text = await r.text()
+    const text = await response.text()
 
-    return res.status(r.status).send(text)
+    return res.status(response.status).send(text)
   } catch (err: any) {
     return res.status(500).json({
-      error: err.message,
+      message: err.message,
       stack: err.stack,
     })
   }
