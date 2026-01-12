@@ -2,15 +2,15 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 export const config = { runtime: 'nodejs' }
 
-export default async function handler(
-  req: VercelRequest,
-  res: VercelResponse
-) {
-  const auth = process.env.BLUPAY_AUTH?.trim()
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  const auth = process.env.BLUPAY_AUTH?.trim() || ''
+
+  const header = `Basic ${auth}`
 
   return res.status(200).json({
-    authorizationHeader: `Basic ${auth}`,
-    length: auth?.length ?? 0,
-    startsWithBasic: auth?.startsWith('Basic ') ?? false,
+    rawAuth: auth,
+    authorizationHeader: header,
+    length: header.length,
+    startsWithBasic: header.startsWith('Basic ')
   })
 }
