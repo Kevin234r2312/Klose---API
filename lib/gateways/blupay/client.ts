@@ -1,3 +1,7 @@
+headers: {
+  Authorization: `Basic ${process.env.BLUPAY_AUTH}`,
+  'Content-Type': 'application/json',
+},
 const BLUPAY_BASE_URL = 'https://api.blupayip.io'
 const BLUPAY_AUTH = process.env.BLUPAY_AUTH!
 
