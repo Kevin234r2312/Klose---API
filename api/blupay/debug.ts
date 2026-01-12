@@ -1,3 +1,7 @@
+headers: {
+  'X-Authorization': `Basic ${process.env.BLUPAY_AUTH}`,
+  'Content-Type': 'application/json',
+}
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 export const config = { runtime: 'nodejs' }
