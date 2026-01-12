@@ -1,19 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { createBluPayPixIn } from '@/lib/gateways/blupay/pix'
 
 export const config = { runtime: 'nodejs' }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  try {
-    const pix = await createBluPayPixIn(req.body)
-    return res.status(200).json(pix)
-  } catch (err: any) {
-    return res.status(500).json({
-      error: err.message,
-    })
-  }
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  return res.status(200).json({
+    ok: true,
+    route: '/api/payments/pix/in',
+    method: req.method
+  })
 }
