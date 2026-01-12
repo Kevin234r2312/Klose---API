@@ -15,6 +15,10 @@ export default async function handler(
     const pix = await createPixIn(req.body)
     return res.status(200).json(pix)
   } catch (err: any) {
-    return res.status(err?.status || 500).json(err?.data || err)
-  }
+  console.error('PIX ERROR:', err)
+
+  return res.status(err?.status || 500).json({
+    error: err?.data || err,
+  })
 }
+
