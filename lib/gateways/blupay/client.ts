@@ -1,20 +1,16 @@
+const BLUPAY_BASE_URL = 'https://api.blupayip.io'
+const BLUPAY_AUTH = process.env.BLUPAY_AUTH!
+
 export async function blupayRequest(
   path: string,
-  method: 'GET' | 'POST',
+  method: string,
   body?: any
 ) {
-  const baseUrl = process.env.BLUPAY_API_URL
-  const auth = process.env.BLUPAY_AUTH
-
-  if (!baseUrl || !auth) {
-    throw new Error('BluPay env vars not set')
-  }
-
-  const res = await fetch(`${baseUrl}${path}`, {
+  const res = await fetch(`${BLUPAY_BASE_URL}${path}`, {
     method,
     headers: {
+      Authorization: `Basic ${BLUPAY_AUTH}`,
       'Content-Type': 'application/json',
-      Authorization: `Basic ${auth}`,
     },
     body: body ? JSON.stringify(body) : undefined,
   })
@@ -22,7 +18,7 @@ export async function blupayRequest(
   const text = await res.text()
 
   if (!res.ok) {
-    throw new Error(text)
+    throw new Error(`BluPay error ${res.status}: ${text}`)
   }
 
   return JSON.parse(text)
