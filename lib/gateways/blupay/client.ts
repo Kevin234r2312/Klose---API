@@ -1,15 +1,16 @@
 export async function blupayRequest(
   path: string,
-  method: string,
+  method: 'POST' | 'GET',
   body?: any
 ) {
   const auth = process.env.BLUPAY_AUTH
+  const baseUrl = process.env.BLUPAY_BASE_URL
 
-  if (!auth) {
-    throw new Error('BLUPAY_AUTH not set')
+  if (!auth || !baseUrl) {
+    throw new Error('BLUPAY_AUTH ou BLUPAY_BASE_URL não definidos')
   }
 
-  const res = await fetch(`https://api.blupayip.io${path}`, {
+  const res = await fetch(`${baseUrl}${path}`, {
     method,
     headers: {
       Authorization: `Basic ${auth}`,
@@ -20,9 +21,19 @@ export async function blupayRequest(
 
   const text = await res.text()
 
+  let data: any
   try {
-    return JSON.parse(text)
+    data = JSON.parse(text)
   } catch {
-    return { raw: text }
+    data = text
   }
+
+  if (!res.ok) {
+    throw {
+      status: res.status,
+      data,
+    }
+  }
+
+  return data
 }
