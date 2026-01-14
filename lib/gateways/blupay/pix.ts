@@ -7,5 +7,8 @@ export async function createBluPayPixIn(data: any) {
     externalRef: data.externalRef,
     customer: data.customer,
     items: data.items,
+    postbackUrl: data.postbackUrl,
+    webhookSecret: data.webhookSecret,
+    metadata: data.metadata,
   })
 }
