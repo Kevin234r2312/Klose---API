@@ -1,3 +1,5 @@
+import fetch from 'node-fetch'
+
 export async function blupayRequest(
   path: string,
   method: 'POST' | 'GET',
@@ -21,7 +23,7 @@ export async function blupayRequest(
 
   const text = await res.text()
 
-  let data: any
+  let data
   try {
     data = JSON.parse(text)
   } catch {
@@ -29,10 +31,9 @@ export async function blupayRequest(
   }
 
   if (!res.ok) {
-    throw {
-      status: res.status,
-      data,
-    }
+    throw new Error(
+      `BluPay error ${res.status}: ${JSON.stringify(data)}`
+    )
   }
 
   return data
