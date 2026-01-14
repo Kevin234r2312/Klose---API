@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { createBluPayPixIn } from '../../../../lib/gateways/blupay/pix'
+import { createBluPayPixIn } from '../../../lib/gateways/blupay/pix'
 
 export const config = { runtime: 'nodejs' }
 
