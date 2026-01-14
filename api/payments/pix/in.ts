@@ -15,6 +15,7 @@ export default async function handler(
     const result = await createBluPayPixIn(req.body)
     return res.status(200).json(result)
   } catch (err: any) {
-    return res.status(err.status || 500).json(err.data || err)
-  }
+  return res.status(500).json({
+    error: err.message || err,
+  })
 }
