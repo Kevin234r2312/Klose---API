@@ -1,9 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { createPixIn } from '../../../lib/gateways/blupay/pix'
+import { createBluPayPixIn } from '../../../../lib/gateways/blupay/pix'
 
-export const config = {
-  runtime: 'nodejs',
-}
+export const config = { runtime: 'nodejs' }
 
 export default async function handler(
   req: VercelRequest,
@@ -14,19 +12,9 @@ export default async function handler(
   }
 
   try {
-    const result = await createPixIn(req.body)
+    const result = await createBluPayPixIn(req.body)
     return res.status(200).json(result)
   } catch (err: any) {
-    console.error('PIX ERROR:', {
-      message: err.message,
-      data: err.response?.data,
-      status: err.response?.status,
-    })
-
-    return res.status(err.response?.status || 500).json({
-      error: err.response?.data || {
-        message: err.message,
-      },
-    })
+    return res.status(err.status || 500).json(err.data || err)
   }
 }
